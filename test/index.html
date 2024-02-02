@@ -110,11 +110,10 @@
 	var got = document.getElementById("got").value;
 	var fsl = 20 * Math.log(4*Math.PI*frq*rng/3e8) / Math.log(10)
 	var K   = cno - got + fsl + -228.59991673 + 3
-	//console.log(K, cno, got, fsl, -228.59991673)
 	
 	document.getElementById("dbw").innerText = K.toFixed(2) + " dBW";
 	document.getElementById("dbm").innerText = (K+30).toFixed(2) + " dBm";
-	document.getElementById("mw").innerText = (10**(K/10)).toFixed(2) + " mW";
+	document.getElementById("mw").innerText = ((10**(K/10))*1000).toFixed(2) + " mW";
     }
 
     window.onload = () => {
