@@ -1,3 +1,5 @@
+Attempting to figure out PWA and needed a https server for it.
+
 ## Demo
 https://T1nk3rer.github.io/test/
 
