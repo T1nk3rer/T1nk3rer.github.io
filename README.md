@@ -1,12 +1,3 @@
-Attempting to figure out PWA and needed a https server for it.
+# Random things I want to Tinker on...
 
-## Demo
-https://T1nk3rer.github.io/test/
-
-## Browser Compatibility
-Hello PWA has been tested in the following browsers:
-
-* Chrome 67 (Windows and Android)
-* Firefox 60
-* Safari 11
-* Edge 42
+https://T1nk3rer.github.io/link-pwa/

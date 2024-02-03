@@ -1,8 +1,8 @@
 ## Demo
-https://T1nk3rer.github.io/test/
+https://T1nk3rer.github.io/link-pwa/
 
 ## Browser Compatibility
-Hello PWA has been tested in the following browsers:
+Link Margin PWA has been tested in the following browsers:
 
 * Chrome 67 (Windows and Android)
 * Firefox 60
