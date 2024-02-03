@@ -1,6 +1,6 @@
 {
-  "name": "Test",
-  "short_name": "Test",
+  "name": "Link Margin",
+  "short_name": "Link",
   "icons": [{
       "src": "antenna_152.png",
       "sizes": "152x152",
