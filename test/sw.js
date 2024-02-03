@@ -1,4 +1,4 @@
-var cacheName = 'link-margin-pwa';
+var cacheName = 'test-pwa';
 var filesToCache = [
   '/',
   '/index.html'
