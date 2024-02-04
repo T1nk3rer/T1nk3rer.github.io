@@ -28,68 +28,83 @@
 	margin:  0;
     }
     table {
-	//border: 2px solid yellow;
 	height: 100%;
 	width:  99%;
 	margin-left: 0;
     }
+    .tlabel {
+	height: 5%;
+    }
     h1 {
 	vertical-align: bottom;
 	text-align: center;
-	font-size: 8vh;
-	color: yellow;
-    }
-    h2 {
-	vertical-align: bottom;
-	text-align: center;
-	font-size: 6vh;
+	font-size: 3vh;
 	color: yellow;
     }
     label {
-	font-size: 4vh;
+	font-size: 3vh;
     }
     input {
-	font-size: 4vh;
-	width: 80%;
+	font-size: 3vh;
+	width: 100%;
+	text-align: center;
+    }
+    span {
+	color: yellow;
+	font-size: 3vh;
     }
   </style>
 </head>
 <body class="fullscreen">
   <table border="0" >
-    <tr>
-      <td id="td1" align="center">
-        <label for="cno">C/No:</label></br>
-        <input type="text" id="cno" name="cno" oninput="calc_link()">
+    <tr class="tlabel" align="center" ><td colspan="6"><span>Effective Radiated Isotropic Power:</span></td></tr>
+    <tr class="tlabel">
+      <td colspan="3" align="left" width="50%">
+        <label for="cno">C/No (dB):</label>
+      </td>
+      <td colspan="3" >
+        <input type="number" id="cno" name="cno" oninput="calc_link()">
       </td>
     </tr>
-    <tr>
-      <td id="td2" align="center">
-        <label for="freq">Frequency:</label></br>
-        <input type="text" id="freq" name="freq" oninput="calc_link()">
+    <tr class="tlabel">
+      <td colspan="3" align="left" width="40%">
+        <label for="freq">Freq (MHz):&nbsp;</label>
+      </td>
+      <td colspan="3" >
+        <input type="number" id="freq" name="freq" oninput="calc_link()">
       </td>
     </tr>
-    <tr>
-      <td id="td3" align="center">
-        <label for="range">Range:</label></br>
-        <input type="text" id="range" name="range" oninput="calc_link()">
+    <tr class="tlabel">
+      <td colspan="3" align="left">
+        <label for="range">Range (km):</label>
+      </td>
+      <td colspan="3" >
+        <input type="number" id="range" name="range" oninput="calc_link()">
       </td>
     </tr>
-    <tr>
-      <td id="td4" align="center">
-        <label for="got">G/T:</label></br>
-        <input type="text" id="got" name="got" oninput="calc_link()">
+    <tr class="tlabel">
+      <td colspan="3" align="left">
+        <label for="got">G/T (dB):</label>
+      </td>
+      <td colspan="3" >
+        <input type="number" id="got" name="got" oninput="calc_link()">
       </td>
     </tr>
-    <tr>
-      <td id="td5" align="center">
-        <h1>EIRP:</h1>
-        <h2 id="dbw"></h2>
-        <h2 id="dbm"></h2>
-        <h2 id="mw"></h2>
+    <tr class="tlabel">
+      <td colspan="2" align="center"><span id="dbw"></span></td>
+      <td colspan="2" align="center"><span id="dbm"></span></td>
+      <td colspan="2" align="center"><span id="mw"> </span></td>
       </td>
     </tr>
+    <tr class="tlabel">
+      <td colspan="2" align="center"><span id="d">0&deg;</span></td>
+      <td colspan="2" align="center"><span id="x"></span></td>
+      <td colspan="2" align="center"><span id="y"></span></td>
+    </tr>
+    <tr><td/><td/><td/><td/><td/><td/></tr>
   </table>
   <script>
+    // Calculate link Budget //
     function calc_link() {
 	var cno = document.getElementById("cno").value;
 	var frq = document.getElementById("freq").value * 1e6;
@@ -102,20 +117,52 @@
 	document.getElementById("dbm").innerText = (K+30).toFixed(2) + " dBm";
 	document.getElementById("mw").innerText = ((10**(K/10))*1000).toFixed(2) + " mW";
     }
-
+    // Read Accelerometer //
+    //function accelerometerUpdate(e) {
+    //	aZ = event.accelerationIncludingGravity.z;
+    //	x  = Math.atan2(event.accelerationIncludingGravity.x, aZ).toFixed(2);
+    //	y  = Math.atan2(event.accelerationIncludingGravity.y, aZ).toFixed(2);
+    //	//document.getElementById("dbw").innerText = x;// + " degrees";
+    //	//document.getElementById("dbm").innerText = y;// + " degrees";
+    //}    
+    // Read Compass //
+    function compassUpdate(e) {
+	if (event.alpha > 180) {
+	    d = (event.alpha-180).toFixed(2);
+	} else {
+	    d = (event.alpha+180).toFixed(2);
+	}
+	x = event.gamma.toFixed(2);
+	y = event.beta.toFixed(2);
+	document.getElementById("d").innerText = "D: " + d;
+	document.getElementById("x").innerText = "X: " + x;// + " degrees";
+	document.getElementById("y").innerText = "Y:" + y;// + " degrees";
+    }    
+    // On Load //
     window.onload = () => {
 	'use strict';
 
-	if ('serviceWorker' in navigator) {
-	    navigator.serviceWorker
-		.register('sw.js');
-	}
-	
 	document.getElementById("cno").value = 30;
 	document.getElementById("freq").value = 1690;
 	document.getElementById("range").value = 42000;
 	document.getElementById("got").value = 10.9;
 	calc_link();
+	
+	// Watch Accelerometer //
+	//if (window.DeviceMotionEvent != undefined) {
+        //    window.addEventListener("devicemotion", accelerometerUpdate, true);
+	//}
+	
+	// Watch Compass //
+	if (window.DeviceOrientationEvent != undefined) {
+            window.addEventListener("deviceorientation", compassUpdate, true);
+	}
+
+	// Service workker for WPA 
+	if ('serviceWorker' in navigator) {
+	    navigator.serviceWorker
+		.register('sw.js');
+	}	
     }
 
   </script>
