@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Link Budget</title>
+  <title>Test</title>
   <link rel="manifest" href="manifest.json">
   <link rel="icon" href="favicon.ico" type="image/x-icon" />
   <link rel="touch-icon" href="antenna_152.png">
@@ -27,11 +27,10 @@
 	padding: 0;
 	margin:  0;
     }
-    table {
-	//border: 2px solid yellow;
-	height: 100%;
-	width:  99%;
-	margin-left: 0;
+    /* Center the content in the browser window */
+    .container {
+	margin: auto;
+	text-align: center;
     }
     h1 {
 	vertical-align: bottom;
@@ -45,77 +44,59 @@
 	font-size: 6vh;
 	color: yellow;
     }
-    label {
-	font-size: 4vh;
-    }
-    input {
-	font-size: 4vh;
-	width: 80%;
-    }
   </style>
 </head>
 <body class="fullscreen">
-  <table border="0" >
-    <tr>
-      <td id="td1" align="center">
-        <label for="cno">C/No:</label></br>
-        <input type="text" id="cno" name="cno" oninput="calc_link()">
-      </td>
-    </tr>
-    <tr>
-      <td id="td2" align="center">
-        <label for="freq">Frequency:</label></br>
-        <input type="text" id="freq" name="freq" oninput="calc_link()">
-      </td>
-    </tr>
-    <tr>
-      <td id="td3" align="center">
-        <label for="range">Range:</label></br>
-        <input type="text" id="range" name="range" oninput="calc_link()">
-      </td>
-    </tr>
-    <tr>
-      <td id="td4" align="center">
-        <label for="got">G/T:</label></br>
-        <input type="text" id="got" name="got" oninput="calc_link()">
-      </td>
-    </tr>
-    <tr>
-      <td id="td5" align="center">
-        <h1>EIRP:</h1>
-        <h2 id="dbw"></h2>
-        <h2 id="dbm"></h2>
-        <h2 id="mw"></h2>
-      </td>
-    </tr>
-  </table>
+  <div class="container">
+    <h1>Level:</h1>
+    <h2 id="dbw"></h2>
+    <h2 id="dbm"></h2>
+    <h2 id="mw"></h2>
+  </div>
   <script>
-    function calc_link() {
-	var cno = document.getElementById("cno").value;
-	var frq = document.getElementById("freq").value * 1e6;
-	var rng = document.getElementById("range").value * 1e3;
-	var got = document.getElementById("got").value;
-	var fsl = 20 * Math.log(4*Math.PI*frq*rng/3e8) / Math.log(10)
-	var K   = cno - got + fsl + -228.59991673 + 3
-	
-	document.getElementById("dbw").innerText = K.toFixed(2) + " dBW";
-	document.getElementById("dbm").innerText = (K+30).toFixed(2) + " dBm";
-	document.getElementById("mw").innerText = ((10**(K/10))*1000).toFixed(2) + " mW";
-    }
+    // Read Accelerometer //
+    function accelerometerUpdate(e) {
+	aZ = event.accelerationIncludingGravity.z;
+	x  = Math.atan2(event.accelerationIncludingGravity.x, aZ).toFixed(2);
+	y  = Math.atan2(event.accelerationIncludingGravity.y, aZ).toFixed(2);
+	//document.getElementById("dbw").innerText = x;// + " degrees";
+	//document.getElementById("dbm").innerText = y;// + " degrees";
+    }    
+    // Read Compass //
+    function compassUpdate(e) {
+	d = event.alpha.toFixed(2);
+	x = event.gamma.toFixed(2);
+	y = event.beta.toFixed(2);
+	document.getElementById("dbw").innerText = "D: " + d;// + " degrees";
+	document.getElementById("dbm").innerText = "X: " + x;// + " degrees";
+	document.getElementById("mw").innerText = "Y:" + y;// + " degrees";
+    }    
 
+    // On Load //
     window.onload = () => {
 	'use strict';
 
+	// Watch Accelerometer //
+	if (window.DeviceMotionEvent != undefined) {
+            window.addEventListener("devicemotion", accelerometerUpdate, true);
+	}
+	else {
+	    document.getElementById("dbm").innerText = "No Accelerometer";
+	}
+	
+	// Watch Compass //
+	if (window.DeviceOrientationEvent != undefined) {
+            window.addEventListener("deviceorientation", compassUpdate, true);
+	}
+	else {
+	    document.getElementById("mw").innerText = "No Compass";
+	}
+
+	// Service workker for WPA 
 	if ('serviceWorker' in navigator) {
 	    navigator.serviceWorker
 		.register('sw.js');
 	}
-	
-	document.getElementById("cno").value = 30;
-	document.getElementById("freq").value = 1690;
-	document.getElementById("range").value = 42000;
-	document.getElementById("got").value = 10.9;
-	calc_link();
     }
 
   </script>
