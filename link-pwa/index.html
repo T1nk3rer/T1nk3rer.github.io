@@ -53,40 +53,39 @@
 	color: yellow;
 	font-size: 3vh;
     }
+    td {
+	width: 16.6%;
+    }
   </style>
 </head>
 <body class="fullscreen">
   <table border="0" >
     <tr class="tlabel" align="center" ><td colspan="6"><span>Effective Radiated Isotropic Power:</span></td></tr>
     <tr class="tlabel">
-      <td colspan="3" align="left" width="50%">
-        <label for="cno">C/No (dB):</label>
-      </td>
+      <td colspan="2" align="left" width="50%"><label>C/No</label></td>
+      <td colspan="1" align="right" width="50%"><label>(dB):</label></td>
       <td colspan="3" >
         <input type="number" id="cno" name="cno" oninput="calc_link()">
       </td>
     </tr>
     <tr class="tlabel">
-      <td colspan="3" align="left" width="40%">
-        <label for="freq">Freq (MHz):&nbsp;</label>
-      </td>
+      <td colspan="2" align="left"><label>Freq</label></td>
+      <td colspan="1" align="right"><label>(GHz):</label></td>
       <td colspan="3" >
         <input type="number" id="freq" name="freq" oninput="calc_link()">
       </td>
     </tr>
     <tr class="tlabel">
-      <td colspan="3" align="left">
-        <label for="range">Range (km):</label>
-      </td>
+      <td colspan="2" align="left"><label for="range">Range</label></td>
+      <td colspan="1" align="right"><label for="range">(Mm):</label></td>
       <td colspan="3" >
         <input type="number" id="range" name="range" oninput="calc_link()">
       </td>
     </tr>
     <tr class="tlabel">
-      <td colspan="3" align="left">
-        <label for="got">G/T (dB):</label>
-      </td>
-      <td colspan="3" >
+      <td colspan="2" align="left"><label>G/T</label></td>
+      <td colspan="1" align="right"><label>(dB):</label></td>
+      <td colspan="3">
         <input type="number" id="got" name="got" oninput="calc_link()">
       </td>
     </tr>
@@ -98,8 +97,8 @@
     </tr>
     <tr class="tlabel">
       <td colspan="2" align="center"><span id="d">0&deg;</span></td>
-      <td colspan="2" align="center"><span id="x"></span></td>
-      <td colspan="2" align="center"><span id="y"></span></td>
+      <td colspan="2" align="center"><span id="x">0&deg;</span></td>
+      <td colspan="2" align="center"><span id="y">0&deg;</span></td>
     </tr>
     <tr><td/><td/><td/><td/><td/><td/></tr>
   </table>
@@ -107,8 +106,8 @@
     // Calculate link Budget //
     function calc_link() {
 	var cno = document.getElementById("cno").value;
-	var frq = document.getElementById("freq").value * 1e6;
-	var rng = document.getElementById("range").value * 1e3;
+	var frq = document.getElementById("freq").value * 1e9;
+	var rng = document.getElementById("range").value * 1e6;
 	var got = document.getElementById("got").value;
 	var fsl = 20 * Math.log(4*Math.PI*frq*rng/3e8) / Math.log(10)
 	var K   = cno - got + fsl + -228.59991673 + 3
@@ -128,12 +127,12 @@
     // Read Compass //
     function compassUpdate(e) {
 	if (event.alpha > 180) {
-	    d = (event.alpha-180).toFixed(2);
+	    d = (event.alpha-180).toFixed(0) + "\u00B0";
 	} else {
-	    d = (event.alpha+180).toFixed(2);
+	    d = (event.alpha+180).toFixed(0) + "\u00B0";
 	}
-	x = event.gamma.toFixed(2);
-	y = event.beta.toFixed(2);
+	x = event.gamma.toFixed(0) + "\u00B0";
+	y = event.beta.toFixed(0) + "\u00B0";
 	document.getElementById("d").innerText = "D: " + d;
 	document.getElementById("x").innerText = "X: " + x;// + " degrees";
 	document.getElementById("y").innerText = "Y:" + y;// + " degrees";
@@ -143,9 +142,9 @@
 	'use strict';
 
 	document.getElementById("cno").value = 30;
-	document.getElementById("freq").value = 1690;
-	document.getElementById("range").value = 42000;
-	document.getElementById("got").value = 10.9;
+	document.getElementById("freq").value = 1.69;
+	document.getElementById("range").value = 40;
+	document.getElementById("got").value = 13.44;
 	calc_link();
 	
 	// Watch Accelerometer //
