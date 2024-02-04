@@ -90,9 +90,8 @@
       </td>
     </tr>
     <tr class="tlabel">
-      <td colspan="2" align="center"><span id="dbw"></span></td>
-      <td colspan="2" align="center"><span id="dbm"></span></td>
-      <td colspan="2" align="center"><span id="mw"> </span></td>
+      <td colspan="3" align="center"><span id="dbm"></span></td>
+      <td colspan="3" align="center"><span id="mw"> </span></td>
       </td>
     </tr>
     <tr class="tlabel">
@@ -111,10 +110,16 @@
 	var got = document.getElementById("got").value;
 	var fsl = 20 * Math.log(4*Math.PI*frq*rng/3e8) / Math.log(10)
 	var K   = cno - got + fsl + -228.59991673 + 3
+
+	var P = (10**(K/10))*1000;
+	if (P > 1000) { P = (P/1000).toFixed(2) + " W";
+	} else        { P = P.toFixed(2) + " mW"; }
 	
-	document.getElementById("dbw").innerText = K.toFixed(2) + " dBW";
-	document.getElementById("dbm").innerText = (K+30).toFixed(2) + " dBm";
-	document.getElementById("mw").innerText = ((10**(K/10))*1000).toFixed(2) + " mW";
+	if (K < 0) { K = (K+30).toFixed(2) + " dBm"; }
+	else       { K = K.toFixed(2) + " dBW"; }
+	
+	document.getElementById("dbm").innerText = K;
+	document.getElementById("mw").innerText = P;
     }
     // Read Accelerometer //
     //function accelerometerUpdate(e) {
