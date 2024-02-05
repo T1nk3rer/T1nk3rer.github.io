@@ -64,40 +64,31 @@
     <tr class="tlabel">
       <td colspan="2" align="left" width="50%"><label>C/No</label></td>
       <td colspan="1" align="right" width="50%"><label>(dB):</label></td>
-      <td colspan="3" >
-        <input type="number" id="cno" name="cno" oninput="calc_link()">
-      </td>
+      <td colspan="3"><input type="number" id="cno" name="cno" oninput="calc_link()"/></td>
     </tr>
     <tr class="tlabel">
       <td colspan="2" align="left"><label>Freq</label></td>
       <td colspan="1" align="right"><label>(GHz):</label></td>
-      <td colspan="3" >
-        <input type="number" id="freq" name="freq" oninput="calc_link()">
-      </td>
+      <td colspan="3" ><input type="number" id="freq" name="freq" oninput="calc_link()"/></td>
     </tr>
     <tr class="tlabel">
       <td colspan="2" align="left"><label for="range">Range</label></td>
       <td colspan="1" align="right"><label for="range">(Mm):</label></td>
-      <td colspan="3" >
-        <input type="number" id="range" name="range" oninput="calc_link()">
-      </td>
+      <td colspan="3" ><input type="number" id="range" name="range" oninput="calc_link()"/></td>
     </tr>
     <tr class="tlabel">
       <td colspan="2" align="left"><label>G/T</label></td>
       <td colspan="1" align="right"><label>(dB):</label></td>
-      <td colspan="3">
-        <input type="number" id="got" name="got" oninput="calc_link()">
-      </td>
+      <td colspan="3"><input type="number" id="got" name="got" oninput="calc_link()"/></td>
     </tr>
     <tr class="tlabel">
-      <td colspan="3" align="center"><span id="dbm"></span></td>
-      <td colspan="3" align="center"><span id="mw"> </span></td>
-      </td>
+      <td colspan="3" align="center"><span id="dbm"/></td>
+      <td colspan="3" align="center"><span id="mw"/></td>
     </tr>
     <tr class="tlabel">
-      <td colspan="2" align="center"><span id="d">0&deg;</span></td>
-      <td colspan="2" align="center"><span id="x">0&deg;</span></td>
-      <td colspan="2" align="center"><span id="y">0&deg;</span></td>
+      <td colspan="2" align="center"><span id="d"/></td>
+      <td colspan="2" align="center"><span id="x"/></td>
+      <td colspan="2" align="center"><span id="y"/></td>
     </tr>
     <tr><td/><td/><td/><td/><td/><td/></tr>
   </table>
@@ -122,25 +113,46 @@
 	document.getElementById("mw").innerText = P;
     }
     // Read Accelerometer //
-    //function accelerometerUpdate(e) {
-    //	aZ = event.accelerationIncludingGravity.z;
-    //	x  = Math.atan2(event.accelerationIncludingGravity.x, aZ).toFixed(2);
-    //	y  = Math.atan2(event.accelerationIncludingGravity.y, aZ).toFixed(2);
-    //	//document.getElementById("dbw").innerText = x;// + " degrees";
-    //	//document.getElementById("dbm").innerText = y;// + " degrees";
-    //}    
+    function accelerometerUpdate(e) {
+    	aZ = event.accelerationIncludingGravity.z;
+    	x  = Math.atan2(event.accelerationIncludingGravity.x, aZ).toFixed(2);
+    	y  = Math.atan2(event.accelerationIncludingGravity.y, aZ).toFixed(2);
+    	//document.getElementById("dbw").innerText = x;// + " degrees";
+    	//document.getElementById("dbm").innerText = y;// + " degrees";
+    }    
     // Read Compass //
     function compassUpdate(e) {
-	if (event.alpha > 180) {
-	    d = (event.alpha-180).toFixed(0) + "\u00B0";
-	} else {
-	    d = (event.alpha+180).toFixed(0) + "\u00B0";
+	// Calculate equation components
+	var cA = Math.cos(alphaRad);
+	var sA = Math.sin(alphaRad);
+	var cB = Math.cos(betaRad);
+	var sB = Math.sin(betaRad);
+        var cG = Math.cos(gammaRad);
+        var sG = Math.sin(gammaRad);
+
+	// Calculate A, B, C rotation components
+	var rA = - cA * sG - sA * sB * cG;
+	var rB = - sA * sG + cA * sB * cG;
+
+	// Calculate compass heading
+	var d = Math.atan(rA / rB);
+
+	// Convert from half unit circle to whole unit circle
+	if(rB < 0) {
+            d += Math.PI;
+	} else if(rA < 0) {
+            d += 2 * Math.PI;
 	}
+
+	// Convert radians to degrees
+	var d *= 180 / Math.PI
+		
+	d = d.toFixed(0) + "\u00B0";
 	x = event.gamma.toFixed(0) + "\u00B0";
 	y = event.beta.toFixed(0) + "\u00B0";
 	document.getElementById("d").innerText = "D: " + d;
-	document.getElementById("x").innerText = "X: " + x;// + " degrees";
-	document.getElementById("y").innerText = "Y:" + y;// + " degrees";
+	document.getElementById("x").innerText = "X: " + x;
+	document.getElementById("y").innerText = "Y: " + y;
     }    
     // On Load //
     window.onload = () => {
