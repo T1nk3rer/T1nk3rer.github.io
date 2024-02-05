@@ -122,6 +122,12 @@
     }    
     // Read Compass //
     function compassUpdate(e) {
+
+       // Convert degrees to radians
+	var alphaRad = alpha * (Math.PI / 180);
+	var betaRad  = beta  * (Math.PI / 180);
+	var gammaRad = gamma * (Math.PI / 180);
+	
 	// Calculate equation components
 	var cA = Math.cos(alphaRad);
 	var sA = Math.sin(alphaRad);
