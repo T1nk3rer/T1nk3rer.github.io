@@ -15,46 +15,46 @@
   <meta name="msapplication-TileColor" content="#FFFFFF">
   <style>
     body {
-	font-family: 'ShortStack';
-	background-color: #000000;
-	color:            #ffffff;
+        font-family: 'ShortStack';
+        background-color: #000000;
+        color:            #ffffff;
     }
     html,
     .fullscreen {
-	display: flex;
-	height:  100%;
-	width:   100%;
-	padding: 0;
-	margin:  0;
+        display: flex;
+        height:              100%;
+        width:   100%;
+        padding: 0;
+        margin:              0;
     }
     table {
-	height: 100%;
-	width:  99%;
-	margin-left: 0;
+        height: 100%;
+        width:  99%;
+        margin-left: 0;
     }
     .tlabel {
-	height: 5%;
+        height: 5%;
     }
     h1 {
-	vertical-align: bottom;
-	text-align: center;
-	font-size: 3vh;
-	color: yellow;
+        vertical-align: bottom;
+        text-align: center;
+        font-size: 3vh;
+        color: yellow;
     }
     label {
-	font-size: 3vh;
+        font-size: 3vh;
     }
     input {
-	font-size: 3vh;
-	width: 100%;
-	text-align: center;
+        font-size: 3vh;
+        width: 100%;
+        text-align: center;
     }
     span {
-	color: yellow;
-	font-size: 3vh;
+        color: yellow;
+        font-size: 3vh;
     }
     td {
-	width: 16.6%;
+        width: 16.6%;
     }
   </style>
 </head>
@@ -95,97 +95,97 @@
   <script>
     // Calculate link Budget //
     function calc_link() {
-	var cno = document.getElementById("cno").value;
-	var frq = document.getElementById("freq").value * 1e9;
-	var rng = document.getElementById("range").value * 1e6;
-	var got = document.getElementById("got").value;
-	var fsl = 20 * Math.log(4*Math.PI*frq*rng/3e8) / Math.log(10)
-	var K   = cno - got + fsl + -228.59991673 + 3
+        var cno = document.getElementById("cno").value;
+        var frq = document.getElementById("freq").value * 1e9;
+        var rng = document.getElementById("range").value * 1e6;
+        var got = document.getElementById("got").value;
+        var fsl = 20 * Math.log(4*Math.PI*frq*rng/3e8) / Math.log(10)
+        var K   = cno - got + fsl + -228.59991673 + 3
 
-	var P = (10**(K/10))*1000;
-	if (P > 1000) { P = (P/1000).toFixed(2) + " W";
-	} else        { P = P.toFixed(2) + " mW"; }
-	
-	if (K < 0) { K = (K+30).toFixed(2) + " dBm"; }
-	else       { K = K.toFixed(2) + " dBW"; }
-	
-	document.getElementById("dbm").innerText = K;
-	document.getElementById("mw").innerText = P;
+        var P = (10**(K/10))*1000;
+        if (P > 1000) { P = (P/1000).toFixed(2) + " W";
+        } else        { P = P.toFixed(2) + " mW"; }
+        
+        if (K < 0) { K = (K+30).toFixed(2) + " dBm"; }
+        else       { K = K.toFixed(2) + " dBW"; }
+        
+        document.getElementById("dbm").innerText = K;
+        document.getElementById("mw").innerText = P;
     }
     // Read Accelerometer //
     function accelerometerUpdate(e) {
-    	aZ = event.accelerationIncludingGravity.z;
-    	x  = Math.atan2(event.accelerationIncludingGravity.x, aZ).toFixed(2);
-    	y  = Math.atan2(event.accelerationIncludingGravity.y, aZ).toFixed(2);
-    	//document.getElementById("dbw").innerText = x;// + " degrees";
-    	//document.getElementById("dbm").innerText = y;// + " degrees";
+        aZ = event.accelerationIncludingGravity.z;
+        x  = Math.atan2(event.accelerationIncludingGravity.x, aZ).toFixed(2);
+        y  = Math.atan2(event.accelerationIncludingGravity.y, aZ).toFixed(2);
+        //document.getElementById("dbw").innerText = x;// + " degrees";
+        //document.getElementById("dbm").innerText = y;// + " degrees";
     }    
     // Read Compass //
     function compassUpdate(e) {
 
        // Convert degrees to radians
-	var alphaRad = event.alpha * (Math.PI / 180);
-	var betaRad  = event.beta  * (Math.PI / 180);
-	var gammaRad = event.gamma * (Math.PI / 180);
-	
-	// Calculate equation components
-	var cA = Math.cos(alphaRad);
-	var sA = Math.sin(alphaRad);
-	var cB = Math.cos(betaRad);
-	var sB = Math.sin(betaRad);
+        var alphaRad = event.alpha * (Math.PI / 180);
+        var betaRad      = event.beta  * (Math.PI / 180);
+        var gammaRad = event.gamma * (Math.PI / 180);
+        
+        // Calculate equation components
+        var cA = Math.cos(alphaRad);
+        var sA = Math.sin(alphaRad);
+        var cB = Math.cos(betaRad);
+        var sB = Math.sin(betaRad);
         var cG = Math.cos(gammaRad);
         var sG = Math.sin(gammaRad);
 
-	// Calculate A, B, C rotation components
-	var rA = - cA * sG - sA * sB * cG;
-	var rB = - sA * sG + cA * sB * cG;
-	//var rC = - cB * cG;
+        // Calculate A, B, C rotation components
+        var rA = - cA * sG - sA * sB * cG;
+        var rB = - sA * sG + cA * sB * cG;
+        //var rC = - cB * cG;
 
-	// Calculate compass heading
-	var d = Math.atan(rA / rB);
+        // Calculate compass heading
+        var d = Math.atan(rA / rB);
 
-	// Convert from half unit circle to whole unit circle
-	if(rB < 0) {
+        // Convert from half unit circle to whole unit circle
+        if(rB < 0) {
             d += Math.PI;
-	} else if(rA < 0) {
+        } else if(rA < 0) {
             d += 2 * Math.PI;
-	}
+        }
 
-	// Convert radians to degrees
-	var d = d * 180 / Math.PI
-		
-	d = d.toFixed(0) + "\u00B0";
-	x = event.gamma.toFixed(0) + "\u00B0";
-	y = event.beta.toFixed(0) + "\u00B0";
-	document.getElementById("d").innerText = "D: " + d;
-	document.getElementById("x").innerText = "X: " + x;
-	document.getElementById("y").innerText = "Y: " + y;
+        // Convert radians to degrees
+        var d = d * 180 / Math.PI
+                
+        d = d.toFixed(0) + "\u00B0";
+        x = event.gamma.toFixed(0) + "\u00B0";
+        y = event.beta.toFixed(0) + "\u00B0";
+        document.getElementById("d").innerText = "D: " + d;
+        document.getElementById("x").innerText = "X: " + x;
+        document.getElementById("y").innerText = "Y: " + y;
     }    
     // On Load //
     window.onload = () => {
-	'use strict';
+        'use strict';
 
-	document.getElementById("cno").value = 30;
-	document.getElementById("freq").value = 1.69;
-	document.getElementById("range").value = 40;
-	document.getElementById("got").value = 13.44;
-	calc_link();
-	
-	// Watch Accelerometer //
-	//if (window.DeviceMotionEvent != undefined) {
+        document.getElementById("cno").value = 30;
+        document.getElementById("freq").value = 1.69;
+        document.getElementById("range").value = 40;
+        document.getElementById("got").value = 13.44;
+        calc_link();
+        
+        // Watch Accelerometer //
+        //if (window.DeviceMotionEvent != undefined) {
         //    window.addEventListener("devicemotion", accelerometerUpdate, true);
-	//}
-	
-	// Watch Compass //
-	if (window.DeviceOrientationEvent != undefined) {
+        //}
+        
+        // Watch Compass //
+        if (window.DeviceOrientationEvent != undefined) {
             window.addEventListener("deviceorientation", compassUpdate, true);
-	}
+        }
 
-	// Service workker for WPA 
-	if ('serviceWorker' in navigator) {
-	    navigator.serviceWorker
-		.register('sw.js');
-	}	
+        // Service workker for WPA 
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker
+                .register('sw.js');
+        }       
     }
 
   </script>
