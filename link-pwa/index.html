@@ -139,6 +139,7 @@
 	// Calculate A, B, C rotation components
 	var rA = - cA * sG - sA * sB * cG;
 	var rB = - sA * sG + cA * sB * cG;
+	//var rC = - cB * cG;
 
 	// Calculate compass heading
 	var d = Math.atan(rA / rB);
@@ -151,7 +152,7 @@
 	}
 
 	// Convert radians to degrees
-	var d *= 180 / Math.PI
+	var d = d * 180 / Math.PI
 		
 	d = d.toFixed(0) + "\u00B0";
 	x = event.gamma.toFixed(0) + "\u00B0";
