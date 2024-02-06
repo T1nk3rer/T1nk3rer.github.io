@@ -90,6 +90,11 @@
       <td colspan="2" align="center"><span id="x"/></td>
       <td colspan="2" align="center"><span id="y"/></td>
     </tr>
+    <tr class="tlabel">
+      <td colspan="2" align="center"><span id="d2"/></td>
+      <td colspan="2" align="center"><span id="x2"/></td>
+      <td colspan="2" align="center"><span id="y2"/></td>
+    </tr>
     <tr><td/><td/><td/><td/><td/><td/></tr>
   </table>
   <script>
@@ -117,44 +122,10 @@
         aZ = event.accelerationIncludingGravity.z;
         x  = Math.atan2(event.accelerationIncludingGravity.x, aZ).toFixed(2);
         y  = Math.atan2(event.accelerationIncludingGravity.y, aZ).toFixed(2);
-        //document.getElementById("dbw").innerText = x;// + " degrees";
-        //document.getElementById("dbm").innerText = y;// + " degrees";
     }    
     // Read Compass //
     function compassUpdate(e) {
-
-       // Convert degrees to radians
-        var alphaRad = event.alpha * (Math.PI / 180);
-        var betaRad      = event.beta  * (Math.PI / 180);
-        var gammaRad = event.gamma * (Math.PI / 180);
-        
-        // Calculate equation components
-        var cA = Math.cos(alphaRad);
-        var sA = Math.sin(alphaRad);
-        var cB = Math.cos(betaRad);
-        var sB = Math.sin(betaRad);
-        var cG = Math.cos(gammaRad);
-        var sG = Math.sin(gammaRad);
-
-        // Calculate A, B, C rotation components
-        var rA = - cA * sG - sA * sB * cG;
-        var rB = - sA * sG + cA * sB * cG;
-        //var rC = - cB * cG;
-
-        // Calculate compass heading
-        var d = Math.atan(rA / rB);
-
-        // Convert from half unit circle to whole unit circle
-        if(rB < 0) {
-            d += Math.PI;
-        } else if(rA < 0) {
-            d += 2 * Math.PI;
-        }
-
-        // Convert radians to degrees
-        var d = d * 180 / Math.PI
-                
-        d = d.toFixed(0) + "\u00B0";
+        d = (360-event.alpha).toFixed(0) + "\u00B0";
         x = event.gamma.toFixed(0) + "\u00B0";
         y = event.beta.toFixed(0) + "\u00B0";
         document.getElementById("d").innerText = "D: " + d;
@@ -171,15 +142,37 @@
         document.getElementById("got").value = 13.44;
         calc_link();
         
+        // Watch Compass //
+        if (window.DeviceOrientationEvent != undefined) {
+            window.addEventListener("deviceorientationabsolute", compassUpdate, true);
+        }
+
         // Watch Accelerometer //
         //if (window.DeviceMotionEvent != undefined) {
         //    window.addEventListener("devicemotion", accelerometerUpdate, true);
         //}
-        
-        // Watch Compass //
-        if (window.DeviceOrientationEvent != undefined) {
-            window.addEventListener("deviceorientation", compassUpdate, true);
-        }
+
+				// Sensors //
+				//https://developer.mozilla.org/en-US/docs/Web/API/Sensor_APIs
+				//let magSensor = new Magnetometer({ frequency: 60 });
+				//
+				//magSensor.addEventListener("reading", (e) => {
+				//		console.log(`Magnetic field along the X-axis ${magSensor.x}`);
+				//		console.log(`Magnetic field along the Y-axis ${magSensor.y}`);
+				//		console.log(`Magnetic field along the Z-axis ${magSensor.z}`);
+				//});
+				//magSensor.start();
+
+				//if ("AmbientLightSensor" in window) {
+				//		const sensor = new AmbientLightSensor();
+				//		sensor.addEventListener("reading", (event) => {
+				//				console.log("Current light level:", sensor.illuminance);
+				//		});
+				//		sensor.addEventListener("error", (event) => {
+				//				console.log(event.error.name, event.error.message);
+				//		});
+				//		sensor.start();
+				//}				
 
         // Service workker for WPA 
         if ('serviceWorker' in navigator) {
