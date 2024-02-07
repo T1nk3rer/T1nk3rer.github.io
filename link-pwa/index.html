@@ -14,6 +14,10 @@
   <meta name="msapplication-TileImage" content="antenna_152.png">
   <meta name="msapplication-TileColor" content="#FFFFFF">
   <style>
+		@font-face{
+				font-family: 'ShortStack';
+				src: url('ShortStack.woff2') format('woff2');
+		}
     body {
         font-family: 'ShortStack';
         background-color: #000000;
@@ -51,15 +55,35 @@
     }
     span {
         color: yellow;
-        font-size: 3vh;
+        font-size: 2.9vh;
     }
     td {
         width: 16.6%;
     }
-  </style>
+    .d {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      font-size: 3vh;
+      color: yellow;
+  }
+</style>
 </head>
 <body class="fullscreen">
+  <div id="c1id" class="d"><div id="c"></div></div>
+  <div id="c2id" class="d"><div id="v"></div></div>
+  <div id="c3id" class="d"><div id="h"></div></div>
   <table border="0" >
+    <tr class="tlabel" align="center" ><td colspan="6"><span style="color: white">Compass & Level:</span></td></tr>
+    <tr>
+			<td colspan="6" align="center" height="5%">
+				<img id="cmp" style="vertical-align: bottom;" width="70%" height="80%" src="compass.png"/>
+			</td>
+		</tr>
+    <tr class="tlabel">
+      <td colspan="2" align="center"><span id="d"/></td>
+      <td colspan="2" align="center"><span id="x"/></td>
+      <td colspan="2" align="center"><span id="y"/></td>
+    </tr>
     <tr class="tlabel" align="center" ><td colspan="6"><span style="color: white">Link Calculator:</span></td></tr>
     <tr class="tlabel">
       <td colspan="2" align="left" width="50%"><label>C/No</label></td>
@@ -86,14 +110,7 @@
       <td colspan="2" align="center"><span id="dbm"/></td>
       <td colspan="2" align="center"><span id="mw"/></td>
     </tr>
-    <tr class="tlabel" align="center" ><td colspan="6"></td></tr>
-    <tr class="tlabel" align="center" ><td colspan="6"><span style="color: white">Level:</span></td></tr>
-    <tr class="tlabel">
-      <td colspan="2" align="center"><span id="d"/></td>
-      <td colspan="2" align="center"><span id="x"/></td>
-      <td colspan="2" align="center"><span id="y"/></td>
-    </tr>
-    <tr><td/><td/><td/><td/><td/><td/></tr>
+    <tr height="1%"><td/><td/><td/><td/><td/><td/></tr>
   </table>
   <script>
     // Calculate link Budget //
@@ -126,9 +143,36 @@
         d = (360-event.alpha).toFixed(0) + "\u00B0";
         x = event.gamma.toFixed(0) + "\u00B0";
         y = event.beta.toFixed(0) + "\u00B0";
+				c = "rotate(" + event.alpha + "deg)";
+				
+				c2 = (30 + event.beta).toFixed(0);
+				if (c2 > 45) { c2 = 45 + "%"; }
+				else if (c2 < 10) { c2 = 10 + "%"; }
+				else { c2 = c2 + "%"; }
+				
+				c3 = (50 + event.gamma).toFixed(0);
+				if (c3 > 80) { c3 = 80 + "%"; }
+				else if (c3 < 10) { c3 = 10 + "%"; }
+				else { c3 = c3 + "%"; }
+				
         document.getElementById("d").innerText = "D: " + d;
         document.getElementById("x").innerText = "X: " + x;
         document.getElementById("y").innerText = "Y: " + y;
+				
+				document.getElementById("cmp").style.transform = c;
+				document.getElementById("c1id").style.left = "50%";
+				document.getElementById("c1id").style.top = "10%";
+				document.getElementById("c").innerHTML = d;
+				
+				document.getElementById("cmp").style.transform = c;
+				document.getElementById("c2id").style.left = "90%";
+				document.getElementById("c2id").style.top = c2;
+				document.getElementById("v").innerHTML = y;
+				
+				document.getElementById("c3id").style.left = c3;
+				document.getElementById("c3id").style.top = "50%";
+				document.getElementById("h").innerHTML = x;
+				
     }    
     // On Load //
     window.onload = () => {
