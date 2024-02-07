@@ -55,7 +55,7 @@
     }
     span {
         color: yellow;
-        font-size: 2.9vh;
+        font-size: 2.5vh;
     }
     td {
         width: 16.6%;
@@ -73,17 +73,6 @@
   <div id="c2id" class="d"><div id="v"></div></div>
   <div id="c3id" class="d"><div id="h"></div></div>
   <table border="0" >
-    <tr class="tlabel" align="center" ><td colspan="6"><span style="color: white">Compass & Level:</span></td></tr>
-    <tr>
-			<td colspan="6" align="center" height="5%">
-				<img id="cmp" style="vertical-align: bottom;" width="70%" height="80%" src="compass.png"/>
-			</td>
-		</tr>
-    <tr class="tlabel">
-      <td colspan="2" align="center"><span id="d"/></td>
-      <td colspan="2" align="center"><span id="x"/></td>
-      <td colspan="2" align="center"><span id="y"/></td>
-    </tr>
     <tr class="tlabel" align="center" ><td colspan="6"><span style="color: white">Link Calculator:</span></td></tr>
     <tr class="tlabel">
       <td colspan="2" align="left" width="50%"><label>C/No</label></td>
@@ -106,11 +95,22 @@
       <td colspan="3"><input type="number" id="got" name="got" oninput="calc_link()"/></td>
     </tr>
     <tr class="tlabel">
-      <td colspan="2" align="left"><span>EIRP:</span></td>
-      <td colspan="2" align="center"><span id="dbm"/></td>
-      <td colspan="2" align="center"><span id="mw"/></td>
+      <td colspan="2" align="left"   width="20%"><span>EIRP:</span></td>
+      <td colspan="2" align="center" width="40%"><span id="dbm"/></td>
+      <td colspan="2" align="center" width="40%"><span id="mw"/></td>
     </tr>
-    <tr height="1%"><td/><td/><td/><td/><td/><td/></tr>
+    <tr class="tlabel" align="center" ><td colspan="6"><span style="color: white">Compass & Level:</span></td></tr>
+    <tr>
+			<td colspan="6" align="center" height="5%">
+				<img id="cmp" style="vertical-align: bottom;" width="70%" height="80%" src="compass.png"/>
+			</td>
+		</tr>
+    <tr class="tlabel">
+      <td colspan="2" align="center"><span id="d"/></td>
+      <td colspan="2" align="center"><span id="x"/></td>
+      <td colspan="2" align="center"><span id="y"/></td>
+    </tr>
+    <tr height="0%"><td/><td/><td/><td/><td/><td/></tr>
   </table>
   <script>
     // Calculate link Budget //
@@ -145,13 +145,13 @@
         y = event.beta.toFixed(0) + "\u00B0";
 				c = "rotate(" + event.alpha + "deg)";
 				
-				c2 = (30 + event.beta).toFixed(0);
-				if (c2 > 45) { c2 = 45 + "%"; }
-				else if (c2 < 10) { c2 = 10 + "%"; }
+				c2 = (70 + event.beta).toFixed(0);
+				if (c2 > 90) { c2 = 90 + "%"; }
+				else if (c2 < 50) { c2 = 50 + "%"; }
 				else { c2 = c2 + "%"; }
 				
 				c3 = (50 + event.gamma).toFixed(0);
-				if (c3 > 80) { c3 = 80 + "%"; }
+				if (c3 > 90) { c3 = 90 + "%"; }
 				else if (c3 < 10) { c3 = 10 + "%"; }
 				else { c3 = c3 + "%"; }
 				
@@ -161,7 +161,7 @@
 				
 				document.getElementById("cmp").style.transform = c;
 				document.getElementById("c1id").style.left = "50%";
-				document.getElementById("c1id").style.top = "10%";
+				document.getElementById("c1id").style.top = "48%";
 				document.getElementById("c").innerHTML = d;
 				
 				document.getElementById("cmp").style.transform = c;
@@ -170,7 +170,7 @@
 				document.getElementById("v").innerHTML = y;
 				
 				document.getElementById("c3id").style.left = c3;
-				document.getElementById("c3id").style.top = "50%";
+				document.getElementById("c3id").style.top = "90%";
 				document.getElementById("h").innerHTML = x;
 				
     }    
