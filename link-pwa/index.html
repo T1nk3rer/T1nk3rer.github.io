@@ -1,228 +1,227 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>Link Budget</title>
-  <link rel="manifest" href="manifest.json">
-  <link rel="icon" href="favicon.ico" type="image/x-icon" />
-  <link rel="touch-icon" href="antenna_152.png">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="black"/>
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="mobile-web-app-status-bar-style" content="black">
-  <meta name="mobile-web-app-title" content="Link Budget">
-  <meta name="msapplication-TileImage" content="antenna_152.png">
-  <meta name="msapplication-TileColor" content="#FFFFFF">
-  <style>
-		@font-face{
-				font-family: 'ShortStack';
-				src: url('ShortStack.woff2') format('woff2');
-		}
-    body {
-        font-family: 'ShortStack';
-        background-color: #000000;
-        color:            #ffffff;
-    }
-    html,
-    .fullscreen {
-        display: flex;
-        height:              100%;
-        width:   100%;
-        padding: 0;
-        margin:              0;
-    }
-    table {
-        height: 100%;
-        width:  99%;
-        margin-left: 0;
-    }
-    .tlabel {
-        height: 5%;
-    }
-    h1 {
-        vertical-align: bottom;
-        text-align: center;
-        font-size: 3vh;
-        color: yellow;
-    }
-    label {
-        font-size: 3vh;
-    }
-    input {
-        font-size: 3vh;
-        width: 100%;
-        text-align: center;
-    }
-    span {
-        color: yellow;
-        font-size: 2.5vh;
-    }
-    td {
-        width: 16.6%;
-    }
-    .d {
-      position: absolute;
-      transform: translate(-50%, -50%);
-      font-size: 3vh;
-      color: yellow;
-  }
-</style>
-</head>
-<body class="fullscreen">
-  <div id="c1id" class="d"><div id="c"></div></div>
-  <div id="c2id" class="d"><div id="v"></div></div>
-  <div id="c3id" class="d"><div id="h"></div></div>
-  <table border="0" >
-    <tr class="tlabel" align="center" ><td colspan="6"><span style="color: white">Link Calculator:</span></td></tr>
-    <tr class="tlabel">
-      <td colspan="2" align="left" width="50%"><label>C/No</label></td>
-      <td colspan="1" align="right" width="50%"><label>(dB):</label></td>
-      <td colspan="3"><input type="number" id="cno" name="cno" oninput="calc_link()"/></td>
-    </tr>
-    <tr class="tlabel">
-      <td colspan="2" align="left"><label>Freq</label></td>
-      <td colspan="1" align="right"><label>(GHz):</label></td>
-      <td colspan="3" ><input type="number" id="freq" name="freq" oninput="calc_link()"/></td>
-    </tr>
-    <tr class="tlabel">
-      <td colspan="2" align="left"><label for="range">Range</label></td>
-      <td colspan="1" align="right"><label for="range">(Mm):</label></td>
-      <td colspan="3" ><input type="number" id="range" name="range" oninput="calc_link()"/></td>
-    </tr>
-    <tr class="tlabel">
-      <td colspan="2" align="left"><label>G/T</label></td>
-      <td colspan="1" align="right"><label>(dB):</label></td>
-      <td colspan="3"><input type="number" id="got" name="got" oninput="calc_link()"/></td>
-    </tr>
-    <tr class="tlabel">
-      <td colspan="2" align="left"   width="20%"><span>EIRP:</span></td>
-      <td colspan="2" align="center" width="40%"><span id="dbm"/></td>
-      <td colspan="2" align="center" width="40%"><span id="mw"/></td>
-    </tr>
-    <tr class="tlabel" align="center" ><td colspan="6"><span style="color: white">Compass & Level:</span></td></tr>
-    <tr>
-			<td colspan="6" align="center" height="5%">
-				<img id="cmp" style="vertical-align: bottom;" width="74%" height="80%" src="compass.png"/>
-			</td>
-		</tr>
-    <tr class="tlabel">
-      <td colspan="2" align="center"><span id="d"/></td>
-      <td colspan="2" align="center"><span id="x"/></td>
-      <td colspan="2" align="center"><span id="y"/></td>
-    </tr>
-    <tr height="0%"><td/><td/><td/><td/><td/><td/></tr>
-  </table>
-  <script>
-    // Calculate link Budget //
-    function calc_link() {
-        var cno = document.getElementById("cno").value;
-        var frq = document.getElementById("freq").value * 1e9;
-        var rng = document.getElementById("range").value * 1e6;
-        var got = document.getElementById("got").value;
-        var fsl = 20 * Math.log(4*Math.PI*frq*rng/3e8) / Math.log(10)
-        var K   = cno - got + fsl + -228.59991673 + 3
+	<head>
+		<meta charset="utf-8">
+		<title>Link Budget</title>
+		<link rel="manifest" href="manifest.json">
+		<link rel="icon" href="favicon.ico" type="image/x-icon" />
+		<link rel="touch-icon" href="antenna_152.png">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="theme-color" content="black"/>
+		<meta name="mobile-web-app-capable" content="yes">
+		<meta name="mobile-web-app-status-bar-style" content="black">
+		<meta name="mobile-web-app-title" content="Link Budget">
+		<meta name="msapplication-TileImage" content="antenna_152.png">
+		<meta name="msapplication-TileColor" content="#FFFFFF">
+		<style>
+			@font-face{
+					font-family: 'ShortStack';
+					src: url('ShortStack.woff2') format('woff2');
+			}
+			body {
+					font-family: 'ShortStack';
+					background-color: #000000;
+					color:            #ffffff;
+			}
+			html,
+			.fullscreen {
+					display: flex;
+					height:              100%;
+					width:   100%;
+					padding: 0;
+					margin:              0;
+			}
+			table {
+					height: 100%;
+					width:  99%;
+					margin-left: 0;
+			}
+			.tlabel {
+					height: 5%;
+			}
+			h1 {
+					vertical-align: bottom;
+					text-align: center;
+					font-size: 3vh;
+					color: yellow;
+			}
+			label {
+					font-size: 3vh;
+			}
+			input {
+					font-size: 3vh;
+					width: 100%;
+					text-align: center;
+			}
+			span {
+					color: yellow;
+					font-size: 2.5vh;
+			}
+			td {
+					width: 16.6%;
+			}
+			.d {
+					position: absolute;
+					transform: translate(-50%, -50%);
+					font-size: 3vh;
+					color: yellow;
+			}
+		</style>
+	</head>
+	<body class="fullscreen">
+		<div id="c1id" class="d"><div id="c"></div></div>
+		<div id="c2id" class="d"><div id="v"></div></div>
+		<div id="c3id" class="d"><div id="h"></div></div>
+		<table border="0" >
+			<tr class="tlabel" align="center" ><td colspan="6"><span style="color: white">Link Calculator:</span></td></tr>
+			<tr class="tlabel">
+				<td colspan="2" align="left" width="50%"><label>C/No</label></td>
+				<td colspan="1" align="right" width="50%"><label>(dB):</label></td>
+				<td colspan="3"><input type="number" id="cno" name="cno" oninput="calc_link()"/></td>
+			</tr>
+			<tr class="tlabel">
+				<td colspan="2" align="left"><label>Freq</label></td>
+				<td colspan="1" align="right"><label>(GHz):</label></td>
+				<td colspan="3" ><input type="number" id="freq" name="freq" oninput="calc_link()"/></td>
+			</tr>
+			<tr class="tlabel">
+				<td colspan="2" align="left"><label for="range">Range</label></td>
+				<td colspan="1" align="right"><label for="range">(Mm):</label></td>
+				<td colspan="3" ><input type="number" id="range" name="range" oninput="calc_link()"/></td>
+			</tr>
+			<tr class="tlabel">
+				<td colspan="2" align="left"><label>G/T</label></td>
+				<td colspan="1" align="right"><label>(dB):</label></td>
+				<td colspan="3"><input type="number" id="got" name="got" oninput="calc_link()"/></td>
+			</tr>
+			<tr class="tlabel">
+				<td colspan="2" align="left"   width="20%"><span>EIRP:</span></td>
+				<td colspan="2" align="center" width="40%"><span id="dbm"/></td>
+				<td colspan="2" align="center" width="40%"><span id="mw"/></td>
+			</tr>
+			<tr class="tlabel" align="center" ><td colspan="6"><span style="color: white">Compass & Level:</span></td></tr>
+			<tr>
+				<td colspan="6" align="center" height="5%">
+					<img id="cmp" style="vertical-align: bottom;" width="74%" height="80%" src="compass.png"/>
+				</td>
+			</tr>
+			<tr class="tlabel">
+				<td colspan="2" align="center"><span id="d"/></td>
+				<td colspan="2" align="center"><span id="x"/></td>
+				<td colspan="2" align="center"><span id="y"/></td>
+			</tr>
+			<tr height="0%"><td/><td/><td/><td/><td/><td/></tr>
+		</table>
+		<script>
+			// Calculate link Budget //
+			function calc_link() {
+					var cno = document.getElementById("cno").value;
+					var frq = document.getElementById("freq").value * 1e9;
+					var rng = document.getElementById("range").value * 1e6;
+					var got = document.getElementById("got").value;
+					var fsl = 20 * Math.log(4*Math.PI*frq*rng/3e8) / Math.log(10)
+					var K   = cno - got + fsl + -228.59991673 + 3
 
-        var P = (10**(K/10))*1000;
-        if (P > 1000) { P = (P/1000).toFixed(2) + " W";
-        } else        { P = P.toFixed(2) + " mW"; }
-        
-        if (K < 0) { K = (K+30).toFixed(2) + " dBm"; }
-        else       { K = K.toFixed(2) + " dBW"; }
-        
-        document.getElementById("dbm").innerText = K;
-        document.getElementById("mw").innerText = P;
-    }
-    // Read Accelerometer //
-    function accelerometerUpdate(e) {
-        aZ = event.accelerationIncludingGravity.z;
-        x  = Math.atan2(event.accelerationIncludingGravity.x, aZ).toFixed(2);
-        y  = Math.atan2(event.accelerationIncludingGravity.y, aZ).toFixed(2);
-    }    
-    // Read Compass //
-    function compassUpdate(e) {
-        d = (360-event.alpha).toFixed(0) + "\u00B0";
-        x = event.gamma.toFixed(0) + "\u00B0";
-        y = event.beta.toFixed(0) + "\u00B0";
-				c = "rotate(" + event.alpha + "deg)";
-				
-				c2 = (70 + event.beta).toFixed(0);
-				if (c2 > 90) { c2 = 90 + "%"; }
-				else if (c2 < 50) { c2 = 50 + "%"; }
-				else { c2 = c2 + "%"; }
-				
-				c3 = (50 + event.gamma).toFixed(0);
-				if (c3 > 90) { c3 = 90 + "%"; }
-				else if (c3 < 10) { c3 = 10 + "%"; }
-				else { c3 = c3 + "%"; }
-				
-        document.getElementById("d").innerText = "D: " + d;
-        document.getElementById("x").innerText = "X: " + x;
-        document.getElementById("y").innerText = "Y: " + y;
-				
-				document.getElementById("cmp").style.transform = c;
-				document.getElementById("c1id").style.left = "50%";
-				document.getElementById("c1id").style.top = "48%";
-				document.getElementById("c").innerHTML = d;
-				
-				document.getElementById("cmp").style.transform = c;
-				document.getElementById("c2id").style.left = "90%";
-				document.getElementById("c2id").style.top = c2;
-				document.getElementById("v").innerHTML = y;
-				
-				document.getElementById("c3id").style.left = c3;
-				document.getElementById("c3id").style.top = "90%";
-				document.getElementById("h").innerHTML = x;
-				
-    }    
-    // On Load //
-    window.onload = () => {
-        'use strict';
+					var P = (10**(K/10))*1000;
+					if (P > 1000) { P = (P/1000).toFixed(2) + " W";
+												} else        { P = P.toFixed(2) + " mW"; }
+					
+					if (K < 0) { K = (K+30).toFixed(2) + " dBm"; }
+					else       { K = K.toFixed(2) + " dBW"; }
+					
+					document.getElementById("dbm").innerText = K;
+					document.getElementById("mw").innerText = P;
+			}
+			// Read Accelerometer //
+			function accelerometerUpdate(e) {
+					aZ = event.accelerationIncludingGravity.z;
+					x  = Math.atan2(event.accelerationIncludingGravity.x, aZ).toFixed(2);
+					y  = Math.atan2(event.accelerationIncludingGravity.y, aZ).toFixed(2);
+			}    
+			// Read Compass //
+			function compassUpdate(e) {
+					d = (360-event.alpha).toFixed(0) + "\u00B0";
+					x = event.gamma.toFixed(0) + "\u00B0";
+					y = event.beta.toFixed(0) + "\u00B0";
+					c = "rotate(" + event.alpha + "deg)";
+					
+					c2 = (70 + event.beta).toFixed(0);
+					if (c2 > 90) { c2 = 90 + "%"; }
+					else if (c2 < 50) { c2 = 50 + "%"; }
+					else { c2 = c2 + "%"; }
+					
+					c3 = (50 + event.gamma).toFixed(0);
+					if (c3 > 90) { c3 = 90 + "%"; }
+					else if (c3 < 10) { c3 = 10 + "%"; }
+					else { c3 = c3 + "%"; }
+					
+					document.getElementById("d").innerText = "D: " + d;
+					document.getElementById("x").innerText = "X: " + x;
+					document.getElementById("y").innerText = "Y: " + y;
+					
+					document.getElementById("cmp").style.transform = c;
+					document.getElementById("c1id").style.left = "50%";
+					document.getElementById("c1id").style.top = "48%";
+					document.getElementById("c").innerHTML = d;
+					
+					document.getElementById("cmp").style.transform = c;
+					document.getElementById("c2id").style.left = "90%";
+					document.getElementById("c2id").style.top = c2;
+					document.getElementById("v").innerHTML = y;
+					
+					document.getElementById("c3id").style.left = c3;
+					document.getElementById("c3id").style.top = "90%";
+					document.getElementById("h").innerHTML = x;
+					
+			}    
+			// On Load //
+			window.onload = () => {
+					'use strict';
 
-        document.getElementById("cno").value = 30;
-        document.getElementById("freq").value = 1.69;
-        document.getElementById("range").value = 40;
-        document.getElementById("got").value = 13.44;
-        calc_link();
-        
-        // Watch Compass //
-        if (window.DeviceOrientationEvent != undefined) {
-            window.addEventListener("deviceorientationabsolute", compassUpdate, true);
-        }
+					document.getElementById("cno").value = 30;
+					document.getElementById("freq").value = 1.69;
+					document.getElementById("range").value = 40;
+					document.getElementById("got").value = 13.44;
+					calc_link();
+					
+					// Watch Compass //
+					if (window.DeviceOrientationEvent != undefined) {
+							window.addEventListener("deviceorientationabsolute", compassUpdate, true);
+					}
 
-        // Watch Accelerometer //
-        //if (window.DeviceMotionEvent != undefined) {
-        //    window.addEventListener("devicemotion", accelerometerUpdate, true);
-        //}
+					// Watch Accelerometer //
+					//if (window.DeviceMotionEvent != undefined) {
+					//    window.addEventListener("devicemotion", accelerometerUpdate, true);
+					//}
 
-				// Sensors //
-				//https://developer.mozilla.org/en-US/docs/Web/API/Sensor_APIs
-				//let magSensor = new Magnetometer({ frequency: 60 });
-				//
-				//magSensor.addEventListener("reading", (e) => {
-				//		console.log(`Magnetic field along the X-axis ${magSensor.x}`);
-				//		console.log(`Magnetic field along the Y-axis ${magSensor.y}`);
-				//		console.log(`Magnetic field along the Z-axis ${magSensor.z}`);
-				//});
-				//magSensor.start();
+					// Sensors //
+					//https://developer.mozilla.org/en-US/docs/Web/API/Sensor_APIs
+					//let magSensor = new Magnetometer({ frequency: 60 });
+					//
+					//magSensor.addEventListener("reading", (e) => {
+					//		console.log(`Magnetic field along the X-axis ${magSensor.x}`);
+					//		console.log(`Magnetic field along the Y-axis ${magSensor.y}`);
+					//		console.log(`Magnetic field along the Z-axis ${magSensor.z}`);
+					//});
+					//magSensor.start();
 
-				//if ("AmbientLightSensor" in window) {
-				//		const sensor = new AmbientLightSensor();
-				//		sensor.addEventListener("reading", (event) => {
-				//				console.log("Current light level:", sensor.illuminance);
-				//		});
-				//		sensor.addEventListener("error", (event) => {
-				//				console.log(event.error.name, event.error.message);
-				//		});
-				//		sensor.start();
-				//}				
+					//if ("AmbientLightSensor" in window) {
+					//		const sensor = new AmbientLightSensor();
+					//		sensor.addEventListener("reading", (event) => {
+					//				console.log("Current light level:", sensor.illuminance);
+					//		});
+					//		sensor.addEventListener("error", (event) => {
+					//				console.log(event.error.name, event.error.message);
+					//		});
+					//		sensor.start();
+					//}				
 
-        // Service workker for WPA 
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker
-                .register('/link-pwa/sw.js');
-        }       
-    }
-
-  </script>
-</body>
+					// Service workker for WPA 
+					if ('serviceWorker' in navigator) {
+							navigator.serviceWorker
+									.register('./sw.js');
+					}       
+			}
+		</script>
+	</body>
 </html>
