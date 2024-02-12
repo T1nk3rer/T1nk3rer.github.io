@@ -60,18 +60,41 @@
 			td {
 					width: 16.6%;
 			}
+			.btm {
+					position: absolute;
+					font-size: 3vh;
+					color: black;
+					background-color: yellow;
+					top:  90%;
+					left: 25%;
+					width: 50%;
+					align: center;
+			}
+			.lft {
+					position: absolute;
+					transform: rotate(90deg);
+					font-size: 3vh;
+					color: black;
+					background-color: yellow;
+					top:  66%;
+					left: 70%;
+					width: 50%;
+					heigt: 40%;
+			}
 			.d {
 					position: absolute;
 					transform: translate(-50%, -50%);
+			    border-radius: 55%;
 					font-size: 3vh;
 					color: yellow;
+					background-color: black;
+			    min-width: 7%;
+					top:  45%;
+					left: 50%;
 			}
 		</style>
 	</head>
 	<body class="fullscreen">
-		<div id="c1id" class="d"><div id="c"></div></div>
-		<div id="c2id" class="d"><div id="v"></div></div>
-		<div id="c3id" class="d"><div id="h"></div></div>
 		<table border="0" >
 			<tr class="tlabel" align="center" ><td colspan="6"><span style="color: white">Link Calculator:</span></td></tr>
 			<tr class="tlabel">
@@ -106,12 +129,17 @@
 				</td>
 			</tr>
 			<tr class="tlabel">
-				<td colspan="2" align="center"><span id="d"/></td>
-				<td colspan="2" align="center"><span id="x"/></td>
-				<td colspan="2" align="center"><span id="y"/></td>
+				<td colspan="2" align="center"><span id="d"/>D: N/A</td>
+				<td colspan="2" align="center"><span id="x"/>X: N/A</td>
+				<td colspan="2" align="center"><span id="y"/>Y: N/A</td>
 			</tr>
 			<tr height="0%"><td/><td/><td/><td/><td/><td/></tr>
 		</table>
+		<div id="b3id" class="btm" align="center">|&nbsp;&nbsp;&nbsp;|</div>
+		<div id="c3id" class="d" style="top: 92%;">0&deg;</div>
+		<div id="b2id" class="lft" align="center">|&nbsp;&nbsp;&nbsp;|</div>
+		<div id="c2id" class="d" style="top: 68%; left: 95%;">0&deg;</div>
+		<div id="c1id" class="d">0&deg;</div>
 		<script>
 			// Calculate link Budget //
 			function calc_link() {
@@ -145,7 +173,7 @@
 					y = event.beta.toFixed(0) + "\u00B0";
 					c = "rotate(" + event.alpha + "deg)";
 					
-					c2 = (70 + event.beta).toFixed(0);
+					c2 = (68 + event.beta).toFixed(0);
 					if (c2 > 90) { c2 = 90 + "%"; }
 					else if (c2 < 50) { c2 = 50 + "%"; }
 					else { c2 = c2 + "%"; }
@@ -160,18 +188,14 @@
 					document.getElementById("y").innerText = "Y: " + y;
 					
 					document.getElementById("cmp").style.transform = c;
-					document.getElementById("c1id").style.left = "50%";
-					document.getElementById("c1id").style.top = "48%";
-					document.getElementById("c").innerHTML = d;
+					document.getElementById("c1id").innerHTML = d;
 					
 					document.getElementById("cmp").style.transform = c;
-					document.getElementById("c2id").style.left = "90%";
 					document.getElementById("c2id").style.top = c2;
-					document.getElementById("v").innerHTML = y;
+					document.getElementById("c2id").innerHTML = y;
 					
 					document.getElementById("c3id").style.left = c3;
-					document.getElementById("c3id").style.top = "90%";
-					document.getElementById("h").innerHTML = x;
+					document.getElementById("c3id").innerHTML = x;
 					
 			}    
 			// On Load //
