@@ -1,8 +1,9 @@
 <!doctype html>
 <html lang="en">
 	<head>
-		<meta charset="utf-8">
-		<title>Link Budget</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>OTA Testing</title>
 		<link rel="manifest" href="manifest.json">
 		<link rel="icon" href="favicon.ico" type="image/x-icon" />
 		<link rel="touch-icon" href="antenna_152.png">
@@ -22,18 +23,19 @@
 					font-family: 'ShortStack';
 					background-color: #000000;
 					color:            #ffffff;
+					overflow: hidden; /* Hide scrollbars */
 			}
 			html,
 			.fullscreen {
 					display: flex;
-					height:              100%;
+					height:  100%;
 					width:   100%;
 					padding: 0;
-					margin:              0;
+					margin:  0;
 			}
 			table {
 					height: 100%;
-					width:  99%;
+					width:  100%;
 					margin-left: 0;
 			}
 			.tlabel {
@@ -81,17 +83,6 @@
 					width: 50%;
 					heigt: 40%;
 			}
-			.d {
-					position: absolute;
-					transform: translate(-50%, -50%);
-			    border-radius: 55%;
-					font-size: 3vh;
-					color: yellow;
-					background-color: black;
-			    min-width: 7%;
-					top:  45%;
-					left: 50%;
-			}
 		</style>
 	</head>
 	<body class="fullscreen">
@@ -125,7 +116,7 @@
 			<tr class="tlabel" align="center" ><td colspan="6"><span style="color: white">Compass & Level:</span></td></tr>
 			<tr>
 				<td colspan="6" align="center" height="5%">
-					<img id="cmp" style="vertical-align: bottom;" width="74%" height="80%" src="compass.png"/>
+					<img id="cmp" style="vertical-align: bottom;" height="275vh" src="compass.png"/>
 				</td>
 			</tr>
 			<tr class="tlabel">
@@ -136,10 +127,10 @@
 			<tr height="0%"><td/><td/><td/><td/><td/><td/></tr>
 		</table>
 		<div id="b3id" class="btm" align="center">|&nbsp;&nbsp;&nbsp;|</div>
-		<div id="c3id" class="d" style="top: 92%;">0&deg;</div>
+		<div id="c3id" class="d" style="top: 92%;">&nbsp;</div>
 		<div id="b2id" class="lft" align="center">|&nbsp;&nbsp;&nbsp;|</div>
-		<div id="c2id" class="d" style="top: 68%; left: 95%;">0&deg;</div>
-		<div id="c1id" class="d">0&deg;</div>
+		<div id="c2id" class="d" style="top: 68%; left: 95%;">&nbsp;</div>
+		<div id="hd" style='visibility:hidden;width:0;height:0'>0</div>
 		<script>
 			// Calculate link Budget //
 			function calc_link() {
@@ -165,14 +156,14 @@
 					aZ = event.accelerationIncludingGravity.z;
 					x  = Math.atan2(event.accelerationIncludingGravity.x, aZ).toFixed(2);
 					y  = Math.atan2(event.accelerationIncludingGravity.y, aZ).toFixed(2);
-			}    
+			}
 			// Read Compass //
 			function compassUpdate(e) {
 					d = (360-event.alpha).toFixed(0) + "\u00B0";
 					x = event.gamma.toFixed(0) + "\u00B0";
 					y = event.beta.toFixed(0) + "\u00B0";
 					c = "rotate(" + event.alpha + "deg)";
-					
+
 					c2 = (68 + event.beta).toFixed(0);
 					if (c2 > 90) { c2 = 90 + "%"; }
 					else if (c2 < 50) { c2 = 50 + "%"; }
@@ -186,17 +177,9 @@
 					document.getElementById("d").innerText = "D: " + d;
 					document.getElementById("x").innerText = "X: " + x;
 					document.getElementById("y").innerText = "Y: " + y;
-					
-					document.getElementById("cmp").style.transform = c;
-					document.getElementById("c1id").innerHTML = d;
-					
 					document.getElementById("cmp").style.transform = c;
 					document.getElementById("c2id").style.top = c2;
-					document.getElementById("c2id").innerHTML = y;
-					
 					document.getElementById("c3id").style.left = c3;
-					document.getElementById("c3id").innerHTML = x;
-					
 			}    
 			// On Load //
 			window.onload = () => {
@@ -207,7 +190,7 @@
 					document.getElementById("range").value = 40;
 					document.getElementById("got").value = 13.44;
 					calc_link();
-					
+
 					// Watch Compass //
 					if (window.DeviceOrientationEvent != undefined) {
 							window.addEventListener("deviceorientationabsolute", compassUpdate, true);
