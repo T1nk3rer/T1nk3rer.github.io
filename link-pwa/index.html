@@ -97,15 +97,17 @@
 	</head>
 	<body class="fullscreen">
 		<table border="0" >
-			<tr class="tlabel" align="center" ><td colspan="6"><span style="color: white">Link Calculator:</span></td></tr>
+			<tr class="tlabel" align="center" >
+				<td colspan="6"><span style="color: white">Link Calculator:</span></td>
+			</tr>
 			<tr class="tlabel">
-				<td colspan="2" align="left" width="50%"><label>C/No</label></td>
-				<td colspan="1" align="right" width="50%"><label>(dB):</label></td>
+				<td colspan="2" align="left" width="50%"><label for="cno">C/No</label></td>
+				<td colspan="1" align="right" width="50%"><label for="cno">(dB):</label></td>
 				<td colspan="3"><input type="number" id="cno" name="cno" oninput="calc_link()"/></td>
 			</tr>
 			<tr class="tlabel">
-				<td colspan="2" align="left"><label>Freq</label></td>
-				<td colspan="1" align="right"><label>(GHz):</label></td>
+				<td colspan="2" align="left"><label for="freq">Freq</label></td>
+				<td colspan="1" align="right"><label for="freq">(GHz):</label></td>
 				<td colspan="3" ><input type="number" id="freq" name="freq" oninput="calc_link()"/></td>
 			</tr>
 			<tr class="tlabel">
@@ -114,8 +116,8 @@
 				<td colspan="3" ><input type="number" id="range" name="range" oninput="calc_link()"/></td>
 			</tr>
 			<tr class="tlabel">
-				<td colspan="2" align="left"><label>G/T</label></td>
-				<td colspan="1" align="right"><label>(dB):</label></td>
+				<td colspan="2" align="left"><label for="got">G/T</label></td>
+				<td colspan="1" align="right"><label for="got">(dB):</label></td>
 				<td colspan="3"><input type="number" id="got" name="got" oninput="calc_link()"/></td>
 			</tr>
 			<tr class="tlabel">
@@ -126,7 +128,7 @@
 			<tr class="tlabel" align="center" ><td colspan="6"><span style="color: white">Compass & Level:</span></td></tr>
 			<tr>
 				<td colspan="6" align="center" height="5%">
-					<img id="cmp" style="vertical-align: bottom;" height="275vh" src="compass.png"/>
+					<img id="cmp" style="vertical-align: bottom;" height="275vh" alt="compass" src="compass.png"/>
 				</td>
 			</tr>
 			<tr class="tlabel">
@@ -168,10 +170,17 @@
 			}    
 			// Read Compass //
 			function compassUpdate(e) {
-					d = (360-event.alpha).toFixed(0) + "\u00B0";
-					x = event.gamma.toFixed(0) + "\u00B0";
-					y = event.beta.toFixed(0) + "\u00B0";
-					c = "rotate(" + event.alpha + "deg)";
+					try {
+							d = (360-event.alpha).toFixed(0) + "\u00B0";
+							x = event.gamma.toFixed(0) + "\u00B0";
+							y = event.beta.toFixed(0) + "\u00B0";
+							c = "rotate(" + event.alpha + "deg)";
+					} catch(error) {
+							d = "0\u00B0";
+							x = "0\u00B0";
+							y = "0\u00B0";
+							c = "rotate(0deg)";
+					}
 					
 					c2 = (68 + event.beta).toFixed(1);
 					if (c2 > 90) { c2 = 90 + "%"; }
