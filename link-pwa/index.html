@@ -174,12 +174,12 @@
 					y = event.beta.toFixed(0) + "\u00B0";
 					c = "rotate(" + event.alpha + "deg)";
 					
-					c2 = (68 + event.beta).toFixed(0);
+					c2 = (68 + event.beta).toFixed(1);
 					if (c2 > 90) { c2 = 90 + "%"; }
 					else if (c2 < 50) { c2 = 50 + "%"; }
 					else { c2 = c2 + "%"; }
 					
-					c3 = (50 + event.gamma).toFixed(0);
+					c3 = (50 + event.gamma).toFixed(1);
 					if (c3 > 90) { c3 = 90 + "%"; }
 					else if (c3 < 10) { c3 = 10 + "%"; }
 					else { c3 = c3 + "%"; }
