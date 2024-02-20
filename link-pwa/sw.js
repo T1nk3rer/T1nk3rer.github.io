@@ -1,6 +1,8 @@
 var cacheName = 'link-margin-pwa';
 var filesToCache = [
-  './index.html'
+		'./index.html',
+		'./compass.png',
+		'./ShortStack.woff2',
 ];
 
 /* Start the service worker and cache all of the app's content */
